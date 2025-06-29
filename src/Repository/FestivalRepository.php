@@ -16,6 +16,16 @@ class FestivalRepository extends ServiceEntityRepository
         parent::__construct($registry, Festival::class);
     }
 
+    public function findPaginated(int $page, int $limit): array
+    {
+        return $this->createQueryBuilder('f')
+            //->orderBy('f.id', 'ASC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Festival[] Returns an array of Festival objects
     //     */

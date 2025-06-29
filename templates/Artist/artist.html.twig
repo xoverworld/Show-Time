@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Artists</h1>
+{% for artist in artists %}
+    <strong>Artist Name</strong>: {{ artist.name }}<br>
+    Artist Genre: {{ artist.genre }}<br><br>
+{% endfor %}
+
+{% if  page != 1  %}
+    <a href="{{ path('artist', {id: page-1}) }}"> previous </a>
+{% endif %}
+
+{% if  next  %}
+    <a href="{{ path('artist', {id: page+1}) }}"> next</a>
+{% endif %}
+</body>
+</html>

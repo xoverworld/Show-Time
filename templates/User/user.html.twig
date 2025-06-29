@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Users</h1>
+{% for user in users %}
+    <strong>User Email</strong>: {{ user.email }}<br>
+    User password: {{ user.password }}<br>
+    User Token: {{ user.token }}<br>
+    User First Name: {{ user.userDetails.firstName }}<br>
+    User Last Name: {{ user.userDetails.lastName }}<br>
+    User Age: {{ user.userDetails.age }}<br><br>
+{% endfor %}
+
+{% if  page != 1  %}
+    <a href="{{ path('users', {id: page-1}) }}"> previous </a>
+{% endif %}
+
+{% if  next  %}
+    <a href="{{ path('users', {id: page+1}) }}"> next</a>
+{% endif %}
+</body>
+</html>

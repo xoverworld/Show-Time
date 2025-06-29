@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Festivals</h1>
+        {% for festival in festivals %}
+            <strong>Festival Name</strong>: {{ festival.name }}<br>
+            Festival Price: {{ festival.price }} lei<br>
+            Festival location: {{ festival.location }}<br>
+            Festival Start Date: {{ festival.startDate }}<br>
+            Festival End Date: {{ festival.endDate }}<br><br>
+        {% endfor %}
+
+        {% if  page != 1  %}
+            <a href="{{ path('festival', {id: page-1}) }}"> previous </a>
+        {% endif %}
+
+        {% if  next  %}
+            <a href="{{ path('festival', {id: page+1}) }}"> next</a>
+        {% endif %}
+    </body>
+</html>

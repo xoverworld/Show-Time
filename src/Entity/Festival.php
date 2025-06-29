@@ -90,9 +90,9 @@ class Festival
         return $this;
     }
 
-    public function getStartDate(): ?\DateTime
+    public function getStartDate(): string
     {
-        return $this->start_date;
+        return $this->start_date->format('Y-m-d');
     }
 
     public function setStartDate(\DateTime $start_date): static
@@ -102,9 +102,9 @@ class Festival
         return $this;
     }
 
-    public function getEndDate(): ?\DateTime
+    public function getEndDate(): string
     {
-        return $this->end_date;
+        return $this->end_date->format('Y-m-d');
     }
 
     public function setEndDate(\DateTime $end_date): static

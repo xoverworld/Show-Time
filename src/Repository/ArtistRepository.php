@@ -16,6 +16,16 @@ class ArtistRepository extends ServiceEntityRepository
         parent::__construct($registry, Artist::class);
     }
 
+    public function findPaginated(int $page, int $limit): array
+    {
+        return $this->createQueryBuilder('a')
+            //->orderBy('f.id', 'ASC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Artist[] Returns an array of Artist objects
     //     */
