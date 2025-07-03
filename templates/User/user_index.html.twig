@@ -1,14 +1,30 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>User</h1>
-<strong>User Email</strong>: {{ user.email }}<br>
-User password: {{ user.password }}<br>
-User Token: {{ user.token }}<br>
-User First Name: {{ user.userDetails.firstName }}<br>
-User Last Name: {{ user.userDetails.lastName }}<br>
-User Age: {{ user.userDetails.age }}<br>
-<br>
+{% extends 'base.html.twig' %}
 
-</body>
-</html>
+{% block title %}User Details{% endblock %}
+
+{% block body %}
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="card bg-light shadow-lg rounded-4 w-100" style="max-width: 500px;">
+            <div class="card-body">
+                <h1 class="card-title text-center text-primary mb-4">User Details</h1>
+
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                    <li class="list-group-item"><strong>Password:</strong> {{ user.password }}</li>
+                    <li class="list-group-item"><strong>Token:</strong> {{ user.token }}</li>
+                    <li class="list-group-item"><strong>First Name:</strong> {{ user.userDetails.firstName }}</li>
+                    <li class="list-group-item"><strong>Last Name:</strong> {{ user.userDetails.lastName }}</li>
+                    <li class="list-group-item"><strong>Age:</strong> {{ user.userDetails.age }}</li>
+                </ul>
+
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ path('user_update', {id: user.id}) }}" class="btn btn-outline-warning">Edit</a>
+                    <a href="{{ path('users') }}" class="btn btn-outline-secondary">Back</a>
+                    <form action="{{ path('user_delete', {id: user.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

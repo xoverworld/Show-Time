@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit User{% endblock %}
+
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center">
+<div class="card shadow-lg w-100 mx-3" style="max-width: 700px; border-radius: 1rem;">
+    <div class="card-body p-4">
+        <h3 class="card-title text-center mb-4">Edit User</h3>
+
+        {% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+        {{ form_start(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password) }}
+        {{ form_row(form.token) }}
+
+        <h5 class="mt-4 mb-2">User Details</h5>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.userDetails.firstName) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.userDetails.lastName) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.userDetails.age) }}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success">Update</button>
+        </div>
+        {{ form_end(form) }}
+
+        <div class="text-center mt-3">
+            <a href="{{ path('users') }}" class="btn btn-outline-secondary">Back to Users</a>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}

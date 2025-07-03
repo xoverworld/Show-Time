@@ -1,12 +1,55 @@
-<!DOCTYPE html>
-<html>
-    <body>
-    <h1>Festival</h1>
-        <strong>Festival Name</strong>: {{ festival.name }}<br>
-        Festival Price: {{ festival.price }} lei<br>
-        Festival location: {{ festival.location }}<br>
-        Festival Start Date: {{ festival.startDate }}<br>
-        Festival End Date: {{ festival.endDate }}<br><br>
+{% extends 'base.html.twig' %}
+{% block title %}Festival{% endblock %}
 
-    </body>
-</html>
+{% block body %}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-center align-items-center">
+    <div class="card shadow-sm mb-5" style="min-width: 400px; max-width: 800px; border-radius: 1rem;">
+        <div class="card-body">
+            <h1 class="card-title text-center text-primary mb-4">{{ festival.name }}</h1>
+            <p><strong>Price:</strong> {{ festival.price }} lei</p>
+            <p><strong>Location:</strong> {{ festival.location }}</p>
+            <p><strong>Start Date:</strong> {{ festival.startDate|date('Y-m-d') }}</p>
+            <p><strong>End Date:</strong> {{ festival.endDate|date('Y-m-d') }}</p>
+        </div>
+        <div class="d-flex justify-content-center gap-3 mb-3">
+            <a href="{{ path('festival_update', {id: festival.id}) }}" class="btn btn-outline-warning">Edit</a>
+            <form action="{{ path('festival_delete', {id: festival.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+        <h2 class="text-white mb-3">LineUp</h2>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for festivalArtist in festival.festivalArtists %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ festivalArtist.artist.name }}</h5>
+                        <p class="card-text"><strong>Genre:</strong> {{ festivalArtist.artist.genre }}</p>
+                        <a href="{{ path('deleteFestivalArtist', {id: festivalArtist.id}) }}" class="btn btn-outline-danger btn-sm">
+                            Remove this artist
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="d-flex justify-content-center align-items-center">
+                <p class="text-danger">No artists in lineup.</p>
+            </div>
+
+        {% endfor %}
+    </div>
+
+    <div class="mt-5 text-center">
+        <a href="{{ path('festival') }}" class="btn btn-secondary">Back to Festivals</a>
+    </div>
+</div>
+
+{% endblock %}

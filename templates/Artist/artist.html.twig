@@ -1,18 +1,44 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Artists</h1>
-{% for artist in artists %}
-    <strong>Artist Name</strong>: {{ artist.name }}<br>
-    Artist Genre: {{ artist.genre }}<br><br>
-{% endfor %}
+{% extends 'base.html.twig' %}
+{% block title %}Artist List{% endblock %}
 
-{% if  page != 1  %}
-    <a href="{{ path('artist', {id: page-1}) }}"> previous </a>
-{% endif %}
 
-{% if  next  %}
-    <a href="{{ path('artist', {id: page+1}) }}"> next</a>
-{% endif %}
-</body>
-</html>
+{% block body %}
+<div class="container py-5">
+    <h1 class="text-center text-white mb-4">Artists</h1>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for artist in artists %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ artist.name }}</h5>
+                        <p class="card-text"><strong>Genre:</strong> {{ artist.genre }}</p>
+                        <a href="{{ path('artist_index', {id:artist.id}) }}"><button class="btn btn-outline-primary mt-2">View Artist</button></a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">No artists found.</p>
+        {% endfor %}
+    </div>
+
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-5">
+        {% if page != 1 %}
+            <a href="{{ path('artist', {page: page - 1}) }}" class="btn btn-outline-light">Previous</a>
+        {% else %}
+            <div></div>
+        {% endif %}
+
+        {% if next %}
+            <a href="{{ path('artist', {page: page + 1}) }}" class="btn btn-outline-light">Next</a>
+        {% endif %}
+    </div>
+</div>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <a href="{{ path('artist_new') }}"><button type="button" class="btn btn-success">Create Artist</button></a>
+    </div>
+{% endblock %}
+
+

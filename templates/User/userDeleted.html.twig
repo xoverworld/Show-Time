@@ -1,0 +1,15 @@
+{%extends 'base.html.twig' %}
+
+{% block title %}Deleted{% endblock %}
+{% block body %}
+<div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+    <div class="text-center">
+        <h1 class="text-danger mb-4">User Deleted</h1>
+        <a href="{{ path('users') }}" class="btn btn-secondary">Back to User List</a>
+    </div>
+</div>
+
+{% endblock %}
+
+
+

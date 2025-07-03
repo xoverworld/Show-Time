@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FestivalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\DateType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -90,9 +91,11 @@ class Festival
         return $this;
     }
 
-    public function getStartDate(): string
+    public function getStartDate(): \DateTime
     {
-        return $this->start_date->format('Y-m-d');
+        return $this->start_date;
+
+//        return $this->start_date->format('Y-m-d');
     }
 
     public function setStartDate(\DateTime $start_date): static
@@ -102,9 +105,11 @@ class Festival
         return $this;
     }
 
-    public function getEndDate(): string
+    public function getEndDate(): \DateTime
     {
-        return $this->end_date->format('Y-m-d');
+        return $this->end_date;
+
+//        return $this->end_date->format('Y-m-d');
     }
 
     public function setEndDate(\DateTime $end_date): static
