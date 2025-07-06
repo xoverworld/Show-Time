@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ArtistController extends AbstractController
 {
-    const ARTISTS_PER_PAGE = 4;
+    const ARTISTS_PER_PAGE = 6;
 
     #[Route('/artists', name: 'artist')]
     public function index(EntityManagerInterface $entityManager,Request $request): Response

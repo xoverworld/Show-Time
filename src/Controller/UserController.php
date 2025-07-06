@@ -1,17 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\UserDetails;
 use App\Form\UserDetailsType;
 use App\Form\UserType;
+use App\Form\UserUpdateType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 class UserController extends AbstractController
@@ -35,7 +35,7 @@ class UserController extends AbstractController
 
     }
     #[Route('/users/create', name: 'new_user', priority: 2)]
-    public function newUser(EntityManagerInterface $entityManager, Request $request): Response
+    public function newUser(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new  User();
         $form =  $this->createForm(UserType::class, $user);
@@ -43,6 +43,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            $user = $this->registration($passwordHasher,$user);
+            $user->setRole('ROLE_USER');
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -50,6 +52,17 @@ class UserController extends AbstractController
 //            return $this->render('Festival/festival_success.html.twig');
         }
         return $this->render('User/user_create.html.twig', ['form'=>$form]);
+    }
+
+    public function registration(UserPasswordHasherInterface $passwordHasher, User $user): User
+    {
+
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $user->getPassword()
+        );
+        $user->setPassword($hashedPassword);
+        return $user;
     }
 
     #[Route('/users/delete/{id}', name: 'user_delete', methods: ['POST'])]
@@ -66,7 +79,7 @@ class UserController extends AbstractController
     public function userUpdate(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
         $user = $entityManager->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserUpdateType::class, $user);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,5 +87,16 @@ class UserController extends AbstractController
         }
 
         return $this->render('User/user_update.html.twig',["user"=>$user,"form" => $form->createView()]);
+    }
+
+    #[Route('/changePassword/{id}', name: 'user_change_password', methods: ['POST'])]
+    public  function userShow(EntityManagerInterface $entityManager, int $id,UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $newPassword = $_POST["newPassword"];
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $user->setPassword($newPassword);
+        $user = $this->registration($passwordHasher,$user);
+        $entityManager->flush();
+        return $this->redirectToRoute('user_update', ['id' => $id]);
     }
 }

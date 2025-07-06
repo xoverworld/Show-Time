@@ -1,45 +1,172 @@
-{% extends 'base.html.twig' %}
-{% block title %}Festivals List{% endblock %}
+{#{% extends 'base.html.twig' %}#}
+{#{% block title %}Festivals List{% endblock %}#}
 
+
+{#{% block body %}#}
+
+{#<div class="container py-5">#}
+{#    <h1 class="text-center text-white mb-5">Festivals</h1>#}
+
+{#    <div class="row row-cols-1 row-cols-md-2 g-4">#}
+{#        {% for festival in festivals %}#}
+{#            <div class="col">#}
+{#                <div class="card shadow-sm h-100">#}
+{#                    <div class="card-body">#}
+{#                        <h5 class="card-title"> <strong>{{ festival.name }} </strong></h5>#}
+{#                        <p class="card-text mb-1"><strong>Price:</strong> {{ festival.price }} lei</p>#}
+{#                        <p class="card-text mb-1"><strong>Location:</strong> {{ festival.location }}</p>#}
+{#                        <p class="card-text mb-1"><strong>Start Date:</strong> {{ festival.startDate|date('Y-m-d') }}</p>#}
+{#                        <p class="card-text"><strong>End Date:</strong> {{ festival.endDate|date('Y-m-d') }}</p>#}
+{#                        <a href="{{ path('festival_index', {id: festival.id}) }}"><button class="btn btn-outline-primary mt-2">View Festival LineUp</button></a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% else %}#}
+{#            <p class="text-muted text-center">No festivals available.</p>#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+{#    <!-- Pagination -->#}
+{#    <div class="d-flex justify-content-between align-items-center mt-5">#}
+{#        {% if page != 1 %}#}
+{#            <a href="{{ path('festival', {page: page-1}) }}" class="btn btn-outline-light">Previous</a>#}
+{#        {% else %}#}
+{#            <div></div>#}
+{#        {% endif %}#}
+{#        {% if next %}#}
+{#            <a href="{{ path('festival', {page: page+1}) }}" class="btn btn-outline-light">Next</a>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#    <div class="text-center">#}
+{#        <a href="{{ path('festival_create') }}" class="btn btn-success">Create New Festival</a>#}
+{#    </div>#}
+{#</div>#}
+
+{#{% endblock %}#}
+
+
+
+
+{% extends 'base.html.twig' %}
+{% block title %}Festivals - Show Time{% endblock %}
 
 {% block body %}
+    <div class="container py-5">
 
-<div class="container py-5">
-    <h1 class="text-center text-white mb-5">Festivals</h1>
+        {% if festivals|length > 0 %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for festival in festivals %}
+                    {% set daysUntil = date(festival.startDate).diff(date('now')).days %}
+                    <div class="col">
+                        <div class="card h-100 shadow-lg">
+                            <div class="position-relative">
+                                <!-- Festival Image Placeholder -->
+                                <div class="placeholder-img" style="height: 180px; background: linear-gradient(45deg, {{ cycle(['#6a11cb', '#2575fc', '#ff6b6b', '#4CAF50'], loop.index0) }}, #2c3e50);">
+                                    <img src="https://www.visit.alsace/wp-content/uploads/2018/11/festival-decibulles-2017-laurent-khram-longvixay-1-1600x900.jpg" width="420" height="180" alt="">
+                                </div>
+                                <!-- Festival Status Badge -->
+                                <div class="position-absolute top-0 end-0 m-3">
+                                    {% if date(festival.startDate) > date('now') %}
+                                        <span class="badge bg-success">Upcoming in {{ daysUntil }} days</span>
+                                    {% else %}
+                                        {% if date(festival.endDate) < date('now') %}
+                                            <span class="badge bg-secondary">Completed</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Already Started</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% for festival in festivals %}
-            <div class="col">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"> <strong>{{ festival.name }} </strong></h5>
-                        <p class="card-text mb-1"><strong>Price:</strong> {{ festival.price }} lei</p>
-                        <p class="card-text mb-1"><strong>Location:</strong> {{ festival.location }}</p>
-                        <p class="card-text mb-1"><strong>Start Date:</strong> {{ festival.startDate|date('Y-m-d') }}</p>
-                        <p class="card-text"><strong>End Date:</strong> {{ festival.endDate|date('Y-m-d') }}</p>
-                        <a href="{{ path('festival_index', {id: festival.id}) }}"><button class="btn btn-outline-primary mt-2">View Festival LineUp</button></a>
+                                <!-- Festival Dates -->
+                                <div class="position-absolute bottom-0 start-0 w-100 p-3 text-white" style="background: rgba(0,0,0,0.6);">
+                                    <div class="d-flex justify-content-between">
+                                        <span>{{ festival.startDate|date('M d, Y') }}</span>
+                                        <span>→</span>
+                                        <span>{{ festival.endDate|date('M d, Y') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="card-title mb-1">{{ festival.name }}</h3>
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://img.icons8.com/?size=100&id=3723&format=png&color=000000" width="20" alt="">
+                                    <span class="text-muted">{{ festival.location }}</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge bg-primary py-2">
+                            {{ festival.price }} lei
+                        </span>
+
+                                    <div class="text-end">
+                                        <div class="small text-muted">
+                                            {{ festival.purchasedTickets|length }} attendees
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer bg-transparent d-flex justify-content-center">
+                                <a href="{{ path('festival_index', {id: festival.id}) }}" class="btn btn-outline-primary">
+                                    View Lineup
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
         {% else %}
-            <p class="text-muted text-center">No festivals available.</p>
-        {% endfor %}
+            <div class="card py-5 text-center">
+                <div class="card-body">
+                    <h3 class="text-muted">🎪 No festivals found</h3>
+                    <p class="mb-3">Start by creating your first festival</p>
+                    <a href="{{ path('festival_create') }}" class="btn btn-primary">
+                        ＋ Create New Festival
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-5">
+            {% if page != 1 %}
+                <a href="{{ path('festival', {page: page - 1}) }}" class="btn btn-outline-light">
+                    &larr; Previous
+                </a>
+            {% else %}
+                <div></div>
+            {% endif %}
+
+            {% if next %}
+                <a href="{{ path('festival', {page: page + 1}) }}" class="btn btn-outline-light">
+                    Next &rarr;
+                </a>
+            {% endif %}
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ path('festival_create') }}" class="btn btn-success px-4">
+                Create New Festival
+            </a>
+        </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="d-flex justify-content-between align-items-center mt-5">
-        {% if page != 1 %}
-            <a href="{{ path('festival', {page: page-1}) }}" class="btn btn-outline-light">Previous</a>
-        {% else %}
-            <div></div>
-        {% endif %}
-        {% if next %}
-            <a href="{{ path('festival', {page: page+1}) }}" class="btn btn-outline-light">Next</a>
-        {% endif %}
-    </div>
-    <div class="text-center">
-        <a href="{{ path('festival_create') }}" class="btn btn-success">Create New Festival</a>
-    </div>
-</div>
+    <style>
+        .card {
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
 
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .placeholder-img {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+    </style>
 {% endblock %}

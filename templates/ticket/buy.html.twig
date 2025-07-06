@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Buy Tickets{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h2 class="text-white mb-4">Buy Tickets for {{ festival.name }}</h2>
+
+        {{ form_start(form) }}
+        {{ form_row(form.count) }}
+        <button class="btn btn-success mt-3">Buy Ticket(s)</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

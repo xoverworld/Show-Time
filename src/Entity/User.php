@@ -6,9 +6,11 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +24,7 @@ class User
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $token = null;
+    private ?string $role = null;
 
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -57,14 +59,14 @@ class User
         return $this;
     }
 
-    public function getToken(): ?string
+    public function getRole(): ?string
     {
-        return $this->token;
+        return $this->role;
     }
 
-    public function setToken(string $token): static
+    public function setRole(string $role): static
     {
-        $this->token = $token;
+        $this->role = $role;
 
         return $this;
     }
@@ -82,4 +84,20 @@ class User
     }
 
 
+    public function getRoles(): array
+    {
+        // TODO: Implement getRoles() method.
+        return [$this->role];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // TODO: Implement getUserIdentifier() method.
+        return $this->getEmail();
+    }
 }

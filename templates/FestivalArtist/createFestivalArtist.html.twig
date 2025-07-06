@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Artist to Festival{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-white mb-4">Add Artist to {{ festival.name }}</h2>
+
+        {{ form_start(form) }}
+        {{ form_row(form.artist) }}
+        {{ form_row(form.stageName) }}
+        <button class="btn btn-primary mt-2">Add Artist</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

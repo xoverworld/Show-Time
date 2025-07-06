@@ -1,71 +1,3 @@
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>Users</title>#}
-{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">#}
-{#</head>#}
-{#<body class="bg-light">#}
-
-{#<div class="container py-5">#}
-{#    <h1 class="text-center text-primary mb-5 display-5">User List</h1>#}
-
-{#    {% if users|length > 0 %}#}
-{#        <div class="row row-cols-1 row-cols-md-2 g-4">#}
-{#            {% for user in users %}#}
-{#                <div class="col">#}
-{#                    <div class="card shadow rounded-4 h-100">#}
-{#                        <div class="card-body">#}
-{#                            <h5 class="card-title text-secondary fw-bold mb-3">User #{{ user.id }}</h5>#}
-{#                            <ul class="list-unstyled">#}
-{#                                <li><strong>Email:</strong> {{ user.email }}</li>#}
-{#                                <li><strong>Password:</strong> {{ user.password }}</li>#}
-{#                                <li><strong>Token:</strong> {{ user.token }}</li>#}
-{#                                <li><strong>First Name:</strong> {{ user.userDetails.firstName }}</li>#}
-{#                                <li><strong>Last Name:</strong> {{ user.userDetails.lastName }}</li>#}
-{#                                <li><strong>Age:</strong> {{ user.userDetails.age }}</li>#}
-{#                            </ul>#}
-
-{#                            <div class="d-flex justify-content-between mt-4">#}
-{#                                <form action="{{ path('user_delete', {id: user.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">#}
-{#                                    <button type="submit" class="btn btn-outline-danger">Delete</button>#}
-{#                                </form>#}
-{#                                <a href="{{ path('user_index', {id: user.id}) }}" class="btn btn-outline-primary">View</a>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    {% else %}#}
-{#        <p class="text-center text-muted">No users found.</p>#}
-{#    {% endif %}#}
-
-{#    <!-- Pagination -->#}
-{#    <div class="d-flex justify-content-between align-items-center mt-5">#}
-{#        {% if page != 1 %}#}
-{#            <a href="{{ path('users', {page: page - 1}) }}" class="btn btn-outline-secondary">Previous</a>#}
-{#        {% else %}#}
-{#            <div></div>#}
-{#        {% endif %}#}
-
-{#        {% if next %}#}
-{#            <a href="{{ path('users', {page: page + 1}) }}" class="btn btn-outline-secondary">Next</a>#}
-{#        {% endif %}#}
-{#    </div>#}
-
-{#    <!-- Footer -->#}
-{#    <footer class="text-center mt-5">#}
-{#        <a href="{{ path('homepage') }}" class="btn btn-primary">Back to Home</a>#}
-{#    </footer>#}
-{#</div>#}
-
-{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>#}
-{#</body>#}
-{#</html>#}
-
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}User List{% endblock %}
@@ -82,8 +14,7 @@
                             <h5 class="card-title fw-semibold text-primary">User #{{ user.id }}</h5>
                             <ul class="list-unstyled mb-4">
                                 <li><strong>Email:</strong> {{ user.email }}</li>
-                                <li><strong>Password:</strong> {{ user.password }}</li>
-                                <li><strong>Token:</strong> {{ user.token }}</li>
+{#                                <li><strong>Password:</strong> {{ user.password }}</li>#}
                                 <li><strong>First Name:</strong> {{ user.userDetails.firstName }}</li>
                                 <li><strong>Last Name:</strong> {{ user.userDetails.lastName }}</li>
                                 <li><strong>Age:</strong> {{ user.userDetails.age }}</li>

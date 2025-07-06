@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FestivalController extends AbstractController
 {
-    const FESTIVALS_PER_PAGE = 4;
+    const FESTIVALS_PER_PAGE = 6;
     #[Route('/festivals', name: 'festival')]
     public function index(EntityManagerInterface $entityManager,Request $request): Response
     {
@@ -83,9 +83,9 @@ class FestivalController extends AbstractController
     #[Route('/add/festivalArtist', name: 'festivalArtist')]
     public function addArtistToFestival(EntityManagerInterface $entityManager): Response
     {
-        $f = $entityManager->getRepository(Festival::class)->find(4);
+        $f = $entityManager->getRepository(Festival::class)->find(2);
 
-        $a = $entityManager->getRepository(Artist::class)->find(2);
+        $a = $entityManager->getRepository(Artist::class)->find(5);
 
         $festivalArtist = new FestivalArtist();
         $festivalArtist->setStageName("stage1");
