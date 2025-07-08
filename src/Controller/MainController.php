@@ -14,17 +14,4 @@ class MainController extends AbstractController
 
         return $this->render('main/index.html.twig');
     }
-
-
-    #[Route('/test', name: 'test', methods: ['GET'])]
-    public function about(): Response
-    {
-        return $this->render('main/test.html.twig');
-    }
-
-    #[Route('/test', name: 'testPost', methods: ['POST'])]
-    public function about_post(): Response
-    {
-        return $this->render('main/testPost.html.twig');
-    }
 }

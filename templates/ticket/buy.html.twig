@@ -1,14 +1,56 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Buy Tickets{% endblock %}#}
+
+{#{% block body %}#}
+{#    <div class="container mt-5">#}
+{#        <h2 class="text-white mb-4">Buy Tickets for {{ festival.name }}</h2>#}
+
+{#        {{ form_start(form) }}#}
+{#        <strong>Price per Ticket: <span id="total_price">{{ festival.price }} lei</span></strong><br>#}
+{#        {{ form_row(form.count) }}#}
+
+{#        <button class="btn btn-success mt-3">Buy Ticket(s)</button>#}
+{#        {{ form_end(form) }}#}
+{#    </div>#}
+{#{% endblock %}#}
+
+
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Buy Tickets{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h2 class="text-white mb-4">Buy Tickets for {{ festival.name }}</h2>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between mb-4">
+            <a href="{{ path('festival', {id: festival.id}) }}" class="btn btn-outline-light">⬅ Back to Festival</a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h2 class="text-center text-primary mb-4">Buy Tickets for <span class="text-dark">{{ festival.name }}</span></h2>
 
-        {{ form_start(form) }}
-        {{ form_row(form.count) }}
-        <button class="btn btn-success mt-3">Buy Ticket(s)</button>
-        {{ form_end(form) }}
+                        <p class="text-center fs-5 mb-4">
+                            🎫 <strong>Price per Ticket:</strong> <span id="unit_price">{{ festival.price }}</span> lei
+                        </p>
+
+                        {{ form_start(form) }}
+
+                        <div class="mb-3">
+                            {{ form_label(form.count, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            {{ form_widget(form.count, {'attr': {'class': 'form-control', 'min': '1', 'value': '1'}}) }}
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-success btn-lg">Confirm Purchase</button>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

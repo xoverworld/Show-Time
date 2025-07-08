@@ -36,6 +36,14 @@ class FestivalController extends AbstractController
     #[Route('/festivals/create', name: 'festival_create', priority: 2)]
     public function create(EntityManagerInterface $entityManager, Request $request): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        {
+            return $this->redirectToRoute('festival');
+        }
         $festival = new Festival();
         $form =  $this->createForm(FestivalType::class, $festival);
 
@@ -54,11 +62,22 @@ class FestivalController extends AbstractController
     #[Route('/festivals/delete/{id}', name: 'festival_delete', methods: ['POST'])]
     public function userDelete(EntityManagerInterface $entityManager, int $id): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        {
+            return $this->redirectToRoute('festival');
+        }
         $festival = $entityManager->getRepository(Festival::class)->find($id);
         foreach($festival->getFestivalArtists() as $festivalArtist)
         {
             $entityManager->remove($festivalArtist);
-            $entityManager->flush();
+        }
+        foreach ($festival->getPurchasedTickets() as $purchasedTicket)
+        {
+            $entityManager->remove($purchasedTicket);
         }
         $entityManager->remove($festival);
         $entityManager->flush();
@@ -68,6 +87,14 @@ class FestivalController extends AbstractController
     #[Route('/festivals/update/{id}', name: 'festival_update', methods: ['GET','POST'])]
     public function userUpdate(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        {
+            return $this->redirectToRoute('festival');
+        }
         $festival = $entityManager->getRepository(Festival::class)->find($id);
         $form = $this->createForm(FestivalType::class, $festival);
 
@@ -83,6 +110,14 @@ class FestivalController extends AbstractController
     #[Route('/add/festivalArtist', name: 'festivalArtist')]
     public function addArtistToFestival(EntityManagerInterface $entityManager): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        {
+            return $this->redirectToRoute('festival');
+        }
         $f = $entityManager->getRepository(Festival::class)->find(2);
 
         $a = $entityManager->getRepository(Artist::class)->find(5);

@@ -16,9 +16,9 @@ class UserDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('age', NumberType::class)
+            ->add('firstName', TextType::class, [ 'attr' => [ 'placeholder' => 'First Name' , 'pattern' => '[A-Z][a-z]{2,15}' ] ])
+            ->add('lastName', TextType::class,  [ 'attr' => [ 'placeholder' => 'Last Name' , 'pattern' => '[A-Z][a-z]{2,15}']])
+            ->add('age', NumberType::class, ['attr' => ['placeholder'=>'Age','pattern' => '[1-9][0-9]{0,1}'], ])
             ;
     }
 

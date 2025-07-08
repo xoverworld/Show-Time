@@ -37,6 +37,14 @@ class ArtistController extends AbstractController
     #[Route('/artists/new', name: 'artist_new',priority: 2)]
     public  function new(EntityManagerInterface $entityManager, Request $request): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN')
+        {
+            return $this->redirectToRoute('artist');
+        }
         $artist = new Artist();
         $form =  $this->createForm(ArtistType::class, $artist);
 
@@ -54,6 +62,7 @@ class ArtistController extends AbstractController
     #[Route('/artists/delete/{id}', name: 'artist_delete', methods: ['POST'])]
     public function userDelete(EntityManagerInterface $entityManager, int $id): Response
     {
+
         $artist = $entityManager->getRepository(Artist::class)->find($id);
         foreach($artist->getFestivalArtists() as $festivalArtist)
         {
@@ -68,6 +77,14 @@ class ArtistController extends AbstractController
     #[Route('/artists/update/{id}', name: 'artist_update', methods: ['GET','POST'])]
     public function userUpdate(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN')
+        {
+            return $this->redirectToRoute('artist');
+        }
         $artist = $entityManager->getRepository(Artist::class)->find($id);
         $form = $this->createForm(ArtistType::class, $artist);
 

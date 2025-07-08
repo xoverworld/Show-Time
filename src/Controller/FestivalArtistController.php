@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FestivalArtistController extends AbstractController
 {
-    #[Route('/festival-artist/{id}', name: 'deleteFestivalArtist')]
+    #[Route('/festival-artist/{id}', name: 'deleteFestivalArtist', methods: ['POST'])]
     public function index(int $id, EntityManagerInterface $entityManager): Response
     {
         $festivalArtist = $entityManager->getRepository(FestivalArtist::class)->find($id);
@@ -31,7 +31,14 @@ class FestivalArtistController extends AbstractController
     #[Route('/festivals/{id}/add-artist', name: 'addFestivalArtist')]
     public function addFestivalArtist(Festival $festival,EntityManagerInterface $entityManager, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User not allowed to access this page!');
+        if($this->getUser() == null)
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        {
+            return $this->redirectToRoute('festival');
+        }
         $festivalArtist = new FestivalArtist();
         $festivalArtist->setFestival($festival);
         $form=$this->createForm(FestivalArtistType::class,$festivalArtist);

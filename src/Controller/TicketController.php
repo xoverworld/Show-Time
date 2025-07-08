@@ -54,7 +54,8 @@ class TicketController extends AbstractController
     public function seeTickets(User $user, Security $security): Response
     {
         if ($this->getUser() !== $user && !$security->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException();
+//            throw $this->createAccessDeniedException();
+            return $this->redirectToRoute('homepage');
         }
         $tickets = $user->getUserDetails()->getPurchasedTickets();
 

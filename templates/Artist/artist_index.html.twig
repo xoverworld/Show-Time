@@ -1,229 +1,3 @@
-{#{% extends "base.html.twig" %}#}
-
-{#{% block title %}Artist {% endblock %}#}
-{#{% block body %}#}
-
-{#<div class="container py-5">#}
-{#    <div class="d-flex justify-content-center align-items-center">#}
-
-
-{#        <div class="card shadow-sm mb-5" style="min-width: 300px; max-width: 600px; border-radius: 1rem;">#}
-{#            <div class="card-body" >#}
-{#                <h1 class="card-title text-center text-primary mb-4">Artist Details</h1>#}
-
-{#                <p><strong>Name:</strong> {{ artist.name }}</p>#}
-{#                <p><strong>Genre:</strong> {{ artist.genre }}</p>#}
-
-
-{#                <div class="d-flex justify-content-center gap-3 mt-5">#}
-{#                    <a href="{{ path('artist_update', {id: artist.id}) }}" class="btn btn-outline-warning">Edit</a>#}
-{#                    <form action="{{ path('artist_delete', {id: artist.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">#}
-{#                        <button type="submit" class="btn btn-outline-danger">Delete</button>#}
-{#                    </form>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-
-{#    <div class="d-flex justify-content-center align-items-center">#}
-{#        <h2 class="text-white mb-3">Festivals</h2>#}
-{#    </div>#}
-
-{#    <div class="row row-cols-1 row-cols-md-2 g-4">#}
-{#        {% for festivalArtist in artist.festivalArtists %}#}
-{#            <div class="col">#}
-{#                <div class="card h-100 shadow-sm">#}
-{#                    <div class="card-body">#}
-{#                        <h5 class="card-title">{{ festivalArtist.festival.name }}</h5>#}
-{#                        <p class="card-text"><strong>Location:</strong> {{ festivalArtist.festival.location }}</p>#}
-{#                        <a href="{{ path('deleteFestivalArtist', {id: festivalArtist.id}) }}" class="btn btn-outline-danger btn-sm">#}
-{#                            Remove this Festival#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        {% else %}#}
-{#            <div class="d-flex justify-content-center align-items-center">#}
-{#                <p class="text-danger">Artist doesn't perform at any Festivals.</p>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#        </div>#}
-{#                <div class="text-center mt-4">#}
-{#                    <a href="{{ path('artist') }}" class="btn btn-secondary">Back to Artists</a>#}
-{#                </div>#}
-{#</div>#}
-
-{#{% endblock %}#}
-
-
-
-
-
-
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}{{ artist.name }} - Artist Details{% endblock %}#}
-
-{#{% block body %}#}
-{#    <div class="container mt-4">#}
-{#        <div class="d-flex justify-content-between align-items-center mb-4">#}
-{#            <a href="{{ path('artist') }}" class="btn btn-outline-light">#}
-{#                &larr; Back to Artists#}
-{#            </a>#}
-{#            <h1 class="text-center mb-0 flex-grow-1">🎤 {{ artist.name }}</h1>#}
-{#        </div>#}
-
-{#        <div class="card shadow-lg rounded-4 overflow-hidden">#}
-{#            <div class="row g-0">#}
-{#                <!-- Artist Image/Placeholder -->#}
-{#                <div class="col-md-5">#}
-{#                    <div class="placeholder-img h-100 d-flex align-items-end justify-content-center"#}
-{#                         style="background: linear-gradient(45deg, #6a11cb, #2575fc);">#}
-{#                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="rgba(255,255,255,0.7)" viewBox="0 0 16 16">#}
-{#                            <path d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z"/>#}
-{#                            <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.48 5.48 0 0 1 11.025 8a5.48 5.48 0 0 1-1.61 3.89z"/>#}
-{#                            <path d="M8.707 11.182A4.5 4.5 0 0 0 10.025 8a4.5 4.5 0 0 0-1.318-3.182L8 5.525A3.5 3.5 0 0 1 9.025 8a3.5 3.5 0 0 1-1.025 2.475zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06"/>#}
-{#                        </svg>#}
-{#                    </div>#}
-{#                </div>#}
-
-{#                <!-- Artist Details -->#}
-{#                <div class="col-md-7">#}
-{#                    <div class="card-body p-4">#}
-{#                        <div class="d-flex justify-content-between align-items-start mb-4">#}
-{#                            <div>#}
-{#                                <h2 class="mb-1">{{ artist.name }}</h2>#}
-{#                                <span class="badge bg-primary fs-6">{{ artist.genre }}</span>#}
-{#                            </div>#}
-{#                            <div class="text-end">#}
-{#                                <span class="d-block display-6 fw-bold text-success">★ 4.8</span>#}
-{#                                <small class="text-muted">(142 reviews)</small>#}
-{#                            </div>#}
-{#                        </div>#}
-
-{#                        <div class="mb-4">#}
-{#                            <h5 class="border-bottom pb-2">About the Artist</h5>#}
-{#                            <p class="card-text">#}
-{#                                {{ artist.bio|default('This talented artist has been performing for over ' ~ random(5, 15) ~ ' years. With a unique style blending ' ~ artist.genre ~ ' and contemporary influences, they have captivated audiences worldwide.') }}#}
-{#                            </p>#}
-{#                        </div>#}
-
-{#                        <div class="row mb-4">#}
-{#                            <div class="col-md-6 mb-3">#}
-{#                                <h5 class="border-bottom pb-2">Details</h5>#}
-{#                                <ul class="list-group list-group-flush">#}
-{#                                    <li class="list-group-item d-flex justify-content-between">#}
-{#                                        <span>🎵 Songs:</span>#}
-{#                                        <span>{{ random(15, 50) }}</span>#}
-{#                                    </li>#}
-{#                                    <li class="list-group-item d-flex justify-content-between">#}
-{#                                        <span>📅 Upcoming Shows:</span>#}
-{#                                        <span>{{ random(3, 12) }}</span>#}
-{#                                    </li>#}
-{#                                    <li class="list-group-item d-flex justify-content-between">#}
-{#                                        <span>🌎 Based in:</span>#}
-{#                                        <span>{{ cycle(['London', 'New York', 'Berlin', 'Tokyo'], artist.id) }}</span>#}
-{#                                    </li>#}
-{#                                </ul>#}
-{#                            </div>#}
-
-{#                            <div class="col-md-6">#}
-{#                                <h5 class="border-bottom pb-2">Popular Tracks</h5>#}
-{#                                <ol class="ps-3">#}
-{#                                    {% for i in 1..3 %}#}
-{#                                        <li class="mb-2">#}
-{#                                            <div class="d-flex justify-content-between">#}
-{#                                                <span>{{ artist.name }} - {{ cycle(['Midnight Dreams', 'Electric Love', 'Rhythm of Life'], i) }}</span>#}
-{#                                                <span class="badge bg-light text-dark">{{ random(1, 3) }}:{{ random(10, 59) }}</span>#}
-{#                                            </div>#}
-{#                                            <div class="progress mt-1" style="height: 5px;">#}
-{#                                                <div class="progress-bar" role="progressbar" style="width: {{ random(60, 95) }}%"></div>#}
-{#                                            </div>#}
-{#                                        </li>#}
-{#                                    {% endfor %}#}
-{#                                </ol>#}
-{#                            </div>#}
-{#                        </div>#}
-
-{#                        <div class="d-flex justify-content-end gap-3">#}
-{#                            <a href="{{ path('artist', {id: artist.id}) }}" class="btn btn-warning px-4">#}
-{#                                ✏️ Edit#}
-{#                            </a>#}
-{#                            <form action="{{ path('artist_delete', {id: artist.id}) }}" method="POST"#}
-{#                                  onsubmit="return confirm('Are you sure you want to delete this artist?');">#}
-{#                                <button type="submit" class="btn btn-danger px-4">#}
-{#                                    🗑️ Delete#}
-{#                                </button>#}
-{#                            </form>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-{#        <!-- Upcoming Performances -->#}
-{#        <div class="mt-5">#}
-{#            <h3 class="border-bottom pb-2 mb-4">🎪 Upcoming Performances</h3>#}
-
-{#            <div class="row g-4">#}
-{#                {% for i in 1..3 %}#}
-{#                    <div class="col-md-4">#}
-{#                        <div class="card h-100 shadow-sm">#}
-{#                            <div class="card-header bg-light d-flex justify-content-between">#}
-{#                                <span class="fw-bold">{{ cycle(['Summer Fest', 'Music Fusion', 'Harmony Night'], i) }}</span>#}
-{#                                <span class="badge bg-primary">{{ random(50, 200) }}km</span>#}
-{#                            </div>#}
-{#                            <div class="card-body">#}
-{#                                <div class="d-flex justify-content-between mb-3">#}
-{#                                    <div>#}
-{#                                        <div class="fw-bold">{{ date('+' ~ i ~ ' days')|date('M d, Y') }}</div>#}
-{#                                        <div class="text-muted">{{ date('+' ~ i ~ ' days')|date('h:i A') }}</div>#}
-{#                                    </div>#}
-{#                                    <span class="badge bg-success">${{ random(40, 120) }}</span>#}
-{#                                </div>#}
-{#                                <p class="card-text small">#}
-{#                                    {{ cycle(['Main Stage', 'Electric Pavilion', 'Sunset Arena'], i) }} •#}
-{#                                    {{ cycle(['Open Air', 'Indoor', 'Amphitheater'], i) }}#}
-{#                                </p>#}
-{#                                <div class="d-flex justify-content-between align-items-center mt-3">#}
-{#                                    <a href="#" class="btn btn-sm btn-outline-primary">Details</a>#}
-{#                                    <small class="text-muted">#}
-{#                                        {{ random(80, 95) }}% booked#}
-{#                                    </small>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-{#    <style>#}
-{#        .placeholder-img {#}
-{#            display: flex;#}
-{#            align-items: center;#}
-{#            justify-content: center;#}
-{#            color: rgba(255,255,255,0.7);#}
-{#        }#}
-
-{#        .card {#}
-{#            border-radius: 16px;#}
-{#            overflow: hidden;#}
-{#        }#}
-
-{#        .list-group-item {#}
-{#            background: transparent;#}
-{#            border-color: rgba(0,0,0,0.08);#}
-{#        }#}
-{#    </style>#}
-{#{% endblock %}#}
-
-
-
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ artist.name }} - Artist Details{% endblock %}
@@ -249,12 +23,7 @@
                     <div class="card-body p-4">
                         <h2 class="mb-2">{{ artist.name }}</h2>
                         <span class="badge bg-primary mb-3">{{ artist.genre }}</span>
-
-{#                        {% if artist.bio %}#}
-{#                            <p class="text-muted">{{ artist.bio }}</p>#}
-{#                        {% else %}#}
-                            <p class="text-muted">This artist has not provided a bio yet.</p>
-{#                        {% endif %}#}
+                        <p class="text-muted">Artist description here.</p>
 
                         <ul class="list-unstyled mt-3">
 {#                            <li><strong>🎵 Songs:</strong> {{ artist.songCount|default('—') }}</li>#}
@@ -268,6 +37,7 @@
                             <li><strong>📅 Active Since:</strong> {{ pastDate|date('Y')}}</li>
                         </ul>
 
+                        {% if is_granted('ROLE_ADMIN') %}
                         <div class="mt-4 d-flex gap-3">
                             <a href="{{ path('artist_update', {id: artist.id}) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ path('artist_delete', {id: artist.id}) }}" method="POST"
@@ -275,6 +45,7 @@
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -295,9 +66,11 @@
                                     <a href="{{ path('festival_index', {id: fa.festival.id}) }}" class="btn btn-primary">
                                         View Festival
                                     </a>
-                                    <a href="{{ path('deleteFestivalArtist', {id: fa.festival.id}) }}" class="btn btn-danger">
-                                        Remove from Festival
-                                    </a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <form action="{{ path('deleteFestivalArtist', {id: fa.id}) }}" method="POST">
+                                        <button type="submit" class="btn btn-danger">Remove from Festival</button>
+                                    </form>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

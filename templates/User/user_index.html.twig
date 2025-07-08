@@ -42,9 +42,11 @@
 
 {% block body %}
     <div class="container mt-5">
+        {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('users') }}" class="btn btn-outline-light">
                 &larr; Back to Users
             </a>
+        {% endif %}
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center mb-0 flex-grow-1">👤 User Details</h1>
         </div>

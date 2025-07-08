@@ -20,6 +20,9 @@ class UserController extends AbstractController
     #[Route('/users', name: 'users')]
     public function index(EntityManagerInterface $entityManager, Request $request): Response
     {
+        if($this->getUser() == null || $this->getUser()->getRoles()[0]=='ROLE_USER'){
+            return $this->redirectToRoute('homepage');
+        }
         $page = $request->query->getInt('page', 1);
         $count = $entityManager->getRepository(User::class)->count();
         $users = $entityManager->getRepository(User::class)->findPaginated($page,self::USERS_PER_PAGE);
@@ -30,13 +33,21 @@ class UserController extends AbstractController
     #[Route('/users/{id}', name: 'user_index')]
     public function userIndex(EntityManagerInterface $entityManager, int $id): Response
     {
+        if($this->getUser() == null){
+            return $this->redirectToRoute('homepage');
+        }
+        if($this->getUser()->getRoles()[0]=='ROLE_ADMIN' || $this->getUser()->getId()==$id){
         $user = $entityManager->getRepository(User::class)->find($id);
         return $this->render('User/user_index.html.twig',["user" => $user]);
-
+        }
+        return $this->redirectToRoute('homepage');
     }
     #[Route('/users/create', name: 'new_user', priority: 2)]
     public function newUser(EntityManagerInterface $entityManager, Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
+        if($this->getUser() != null && $this->getUser()->getRoles()[0]=='ROLE_USER'){
+            return $this->redirectToRoute('homepage');
+        }
         $user = new  User();
         $form =  $this->createForm(UserType::class, $user);
 
@@ -69,6 +80,9 @@ class UserController extends AbstractController
     public function userDelete(EntityManagerInterface $entityManager, int $id): Response
     {
         $user = $entityManager->getRepository(User::class)->find($id);
+        foreach ($user->getUserDetails()->getPurchasedTickets() as $ticket) {
+            $entityManager->remove($ticket);
+        }
         $entityManager->remove($user);
         $entityManager->flush();
 //        return $this->redirectToRoute('users');
@@ -78,15 +92,21 @@ class UserController extends AbstractController
     #[Route('/users/update/{id}', name: 'user_update', methods: ['GET','POST'])]
     public function userUpdate(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-        $user = $entityManager->getRepository(User::class)->find($id);
-        $form = $this->createForm(UserUpdateType::class, $user);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if($this->getUser() == null){
+            return $this->redirectToRoute('homepage');
         }
+        if($this->getUser()->getRoles()[0]=='ROLE_ADMIN' || $this->getUser()->getId()==$id) {
+            $user = $entityManager->getRepository(User::class)->find($id);
+            $form = $this->createForm(UserUpdateType::class, $user);
 
-        return $this->render('User/user_update.html.twig',["user"=>$user,"form" => $form->createView()]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->flush();
+            }
+
+            return $this->render('User/user_update.html.twig', ["user" => $user, "form" => $form->createView()]);
+        }
+        return $this->redirectToRoute('homepage');
     }
 
     #[Route('/changePassword/{id}', name: 'user_change_password', methods: ['POST'])]

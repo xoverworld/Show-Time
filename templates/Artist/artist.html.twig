@@ -240,11 +240,13 @@
             {% endif %}
         </div>
 
+        {% if is_granted('ROLE_ADMIN') %}
         <!-- Create Artist Button -->
         <div class="text-center mt-5">
             <a href="{{ path('artist_new') }}" class="btn btn-success btn-lg shadow-sm">
                 <i class="bi bi-plus-circle"></i> Add New Artist
             </a>
         </div>
+        {% endif %}
     </div>
 {% endblock %}

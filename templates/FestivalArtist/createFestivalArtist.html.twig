@@ -1,15 +1,55 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Add Artist to Festival{% endblock %}#}
+
+{#{% block body %}#}
+{#    <div class="container mt-4">#}
+{#        <h2 class="text-white mb-4">Add Artist to {{ festival.name }}</h2>#}
+
+{#        {{ form_start(form) }}#}
+{#        {{ form_row(form.artist) }}#}
+{#        {{ form_row(form.stageName) }}#}
+{#        <button class="btn btn-primary mt-2">Add Artist</button>#}
+{#        {{ form_end(form) }}#}
+{#    </div>#}
+{#{% endblock %}#}
+
+
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Add Artist to Festival{% endblock %}
 
 {% block body %}
-    <div class="container mt-4">
-        <h2 class="text-white mb-4">Add Artist to {{ festival.name }}</h2>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between">
+            <a href="{{ path('festival', {id: festival.id}) }}" class="btn btn-outline-light">&larr; Back to Festival</a>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h2 class="text-center text-primary mb-4">Add Artist to <span class="text-dark">{{ festival.name }}</span></h2>
 
-        {{ form_start(form) }}
-        {{ form_row(form.artist) }}
-        {{ form_row(form.stageName) }}
-        <button class="btn btn-primary mt-2">Add Artist</button>
-        {{ form_end(form) }}
+                        {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.artist, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            {{ form_widget(form.artist, {'attr': {'class': 'form-select'}}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.stageName, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                            {{ form_widget(form.stageName, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-success">Add Artist</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}
