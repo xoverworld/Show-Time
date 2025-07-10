@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FestivalType extends AbstractType
@@ -24,9 +27,26 @@ class FestivalType extends AbstractType
                 ])
             ->add('price', NumberType::class, ['attr' => ['placeholder' => 'Price',]])
             ->add('location', TextType::class, ['attr' => ['placeholder' => 'Location',]])
-            ->add('startDate', DateType::class)
+            ->add('startDate', DateType::class, [
+                'widget' => 'single_text',
+                'html5' => true,
+                'attr' => [
+                    'min' => (new \DateTime('today'))->format('Y-m-d'),
+                ]])
             ->add('endDate', DateType::class)
             ;
+
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+            $edition = $event->getData();
+            if ($edition->getStartDate() && $edition->getEndDate() &&
+                $edition->getEndDate() <= $edition->getStartDate()) {
+                $event->getForm()->get('endDate')->addError(new FormError(
+                    'The end date must be after the start date'
+                ));
+            }
+
+
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

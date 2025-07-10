@@ -5,10 +5,19 @@
 {% block body %}
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="{{ path('user_index', {id:app.user.id}) }}" class="btn btn-outline-light">
+            <a href="{{ path('user_index', {id:user.id}) }}" class="btn btn-outline-light">
                 &larr; Back to User
             </a>
         </div>
+{#        {% for label, messages in app.flashes %}#}
+{#            {% for message in messages %}#}
+{#                <div class="alert alert-{{ label == 'error' ? 'danger' : (label == 'success' ? 'success' : 'info') }} alert-dismissible fade show" role="alert">#}
+{#                    {{ message }}#}
+{#                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        {% endfor %}#}
+
         <h2 class="text-white mb-4">🎟️ My Tickets</h2>
 
         {% if tickets is empty %}
@@ -18,19 +27,38 @@
                 <table class="table table-bordered table-striped table-hover bg-white text-dark rounded">
                     <thead class="table-primary">
                     <tr>
-                        <th>ID</th>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <th>ID</th>
+                        {% endif %}
                         <th>Festival</th>
                         <th>Start Date</th>
                         <th>Location</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for ticket in tickets %}
                         <tr>
-                            <td>{{ ticket.id }}</td>
-                            <td>{{ ticket.festival.name }}</td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td>{{ ticket.id }}</td>
+                            {% endif %}
+                            <td><a class="btn btn-white" href="{{ path('festival_index', {id: ticket.festival.id}) }}">{{ ticket.festival.name }}</a></td>
                             <td>{{ ticket.festival.startDate|date('Y-m-d') }}</td>
                             <td>{{ ticket.festival.location }}</td>
+                            {% set daysUntil = date(ticket.festival.startDate).diff(date('now')).days %}
+                            {% if date(ticket.festival.startDate) > date('now') %}
+                                <td class="text-success ">Upcoming in {{ daysUntil }} days</td>
+                            {% else %}
+                                {% if date(ticket.festival.endDate) < date('now') %}
+                                    <td class="text-danger">Festival Ended</td>
+                                {% else %}
+                                    <td class="text-warning">Festival Already Started</td>
+                                {% endif %}
+                            {% endif %}
+                            <td><form action="{{ path('remove-ticket', {'id': user.id, 'ticketId': ticket.id}) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this ticket?')">
+                                    <button class="btn btn-outline-danger">Remove ticket</button>
+                            </form>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

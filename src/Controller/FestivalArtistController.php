@@ -25,7 +25,8 @@ class FestivalArtistController extends AbstractController
         $entityManager->remove($festivalArtist);
         $entityManager->flush();
 
-        return $this->render('FestivalArtist/deletedFestivalArtist.html.twig', ["festivalID"=>$fId]);
+        return $this->redirectToRoute('festival_index',['id'=>$fId]);
+//        return $this->render('FestivalArtist/deletedFestivalArtist.html.twig', ["festivalID"=>$fId]);
     }
 
     #[Route('/festivals/{id}/add-artist', name: 'addFestivalArtist')]

@@ -102,6 +102,7 @@ class UserController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager->flush();
+                $this->addFlash('success', "User updated successfully");
             }
 
             return $this->render('User/user_update.html.twig', ["user" => $user, "form" => $form->createView()]);
@@ -117,6 +118,7 @@ class UserController extends AbstractController
         $user->setPassword($newPassword);
         $user = $this->registration($passwordHasher,$user);
         $entityManager->flush();
+        $this->addFlash('success', "Password changed successfully");
         return $this->redirectToRoute('user_update', ['id' => $id]);
     }
 }

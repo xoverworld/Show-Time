@@ -36,11 +36,7 @@ class FestivalController extends AbstractController
     #[Route('/festivals/create', name: 'festival_create', priority: 2)]
     public function create(EntityManagerInterface $entityManager, Request $request): Response
     {
-        if($this->getUser() == null)
-        {
-            return $this->redirectToRoute('homepage');
-        }
-        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        if($this->getUser() == null || $this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
         {
             return $this->redirectToRoute('festival');
         }
@@ -53,6 +49,7 @@ class FestivalController extends AbstractController
             $entityManager->persist($festival);
             $entityManager->flush();
 
+            $this->addFlash('success', 'New Festival created successfully');
             return $this->redirectToRoute('festival');
 //            return $this->render('Festival/festival_success.html.twig');
         }
@@ -62,11 +59,7 @@ class FestivalController extends AbstractController
     #[Route('/festivals/delete/{id}', name: 'festival_delete', methods: ['POST'])]
     public function userDelete(EntityManagerInterface $entityManager, int $id): Response
     {
-        if($this->getUser() == null)
-        {
-            return $this->redirectToRoute('homepage');
-        }
-        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        if($this->getUser() == null || $this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
         {
             return $this->redirectToRoute('festival');
         }
@@ -87,11 +80,7 @@ class FestivalController extends AbstractController
     #[Route('/festivals/update/{id}', name: 'festival_update', methods: ['GET','POST'])]
     public function userUpdate(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-        if($this->getUser() == null)
-        {
-            return $this->redirectToRoute('homepage');
-        }
-        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        if($this->getUser() == null || $this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
         {
             return $this->redirectToRoute('festival');
         }
@@ -101,6 +90,7 @@ class FestivalController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('success', 'Festival updated successfully');
         }
 
         return $this->render('Festival/festivalUpdate.html.twig',["festival"=>$festival,"form" => $form->createView()]);
@@ -110,11 +100,7 @@ class FestivalController extends AbstractController
     #[Route('/add/festivalArtist', name: 'festivalArtist')]
     public function addArtistToFestival(EntityManagerInterface $entityManager): Response
     {
-        if($this->getUser() == null)
-        {
-            return $this->redirectToRoute('homepage');
-        }
-        if($this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
+        if($this->getUser() == null || $this->getUser()->getRoles()[0] !== "ROLE_ADMIN")
         {
             return $this->redirectToRoute('festival');
         }

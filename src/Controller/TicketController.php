@@ -9,6 +9,7 @@ use App\Entity\Purchased;
 use App\Entity\User;
 use App\Form\TicketType;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\Ticket;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,10 @@ class TicketController extends AbstractController
 
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
+        if ($festival->getEndDate() < new \DateTime()) {
+            $this->addFlash('error', 'This festival has already ended. You cannot buy tickets.');
+            return $this->redirectToRoute('festival_index', ['id' => $festival->getId()]);
+        }
         $form = $this->createForm(TicketType::class);
         $form->handleRequest($request);
 
@@ -40,8 +45,9 @@ class TicketController extends AbstractController
 
             $entityManager->flush();
 
-            $this->addFlash('success', "$count ticket(s) purchased!");
-            return $this->redirectToRoute('festival_index', ['id' => $festival->getId()]);
+            $this->addFlash('success', "Purchased $count ticket(s)  to ".$festival->getName()."!");
+            return $this->redirectToRoute('show-tickets',['id' => $user->getId()]);
+//            return $this->redirectToRoute('festival_index', ['id' => $festival->getId()]);
         }
 
         return $this->render('ticket/buy.html.twig', [
@@ -59,6 +65,22 @@ class TicketController extends AbstractController
         }
         $tickets = $user->getUserDetails()->getPurchasedTickets();
 
-        return  $this->render('ticket/see-tickets.html.twig', ['tickets' => $tickets,]);
+        return  $this->render('ticket/see-tickets.html.twig', ['tickets' => $tickets, 'user'=>$user]);
+    }
+
+    #[Route('/users/{id}/tickets/{ticketId}', name: 'remove-ticket', methods: 'POST')]
+    public function removeTicket(int $id, int $ticketId, EntityManagerInterface $entityManager): Response
+    {
+        $ticket = $entityManager->getRepository(Purchased::class)->find($ticketId);
+        $user = $ticket->getUserDetails();
+        $festival = $ticket->getFestival();
+
+        $user->removePurchasedTicket($ticket);
+        $festival->removePurchasedTicket($ticket);
+
+        $entityManager->remove($ticket);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('show-tickets',['id'=>$id]);
     }
 }
